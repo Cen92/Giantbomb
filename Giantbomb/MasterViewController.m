@@ -44,14 +44,23 @@
     [searchURL appendString:searchTerm];
     NSString *queryItems = @"&field_list=name,id,image&resources=game";
     [searchURL appendString:queryItems];
-    NSUInteger numElements;
-    numElements = [self->_objects count];
-    if(numElements){
-        [self->_objects removeAllObjects];
-    }
+//    NSUInteger numElements;
+//    numElements = [self->_objects count];
+//    if(numElements){
+//        [self->_objects removeAllObjects];
+//    }
     
     NSURL *url = [NSURL URLWithString:searchURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]init];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [spinner startAnimating];
+        });
     //AFNetworking asynchronous url request
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     
@@ -60,15 +69,51 @@
         
         self->_objects = [responseObject objectForKey:@"results"];
         
-        NSLog(@"The Array: %@",self->_objects);
+        //NSLog(@"The Array: %@",self->_objects);
         
         [self.tableView reloadData];
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [spinner stopAnimating];
+        });
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+ 
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"Request Failed: %@, %@", error, error.userInfo);
         
+    }];
+        [operation start];
+    });
+    
+    
+}
+
+-(void) makeDetailJSONReq:(NSString *)uniqueID{
+    //NSLog(@"Called details");
+    NSMutableString *searchURL = [NSMutableString stringWithString:@"http://www.giantbomb.com/api/game/"];
+    [searchURL appendString:uniqueID];
+    NSString *queryItems = @"/?api_key=db83ace1ea2b58b18cbf4ac7696df4a5508120c6&format=json";
+    [searchURL appendString:queryItems];
+    
+    NSURL *url = [NSURL URLWithString:searchURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    //AFNetworking asynchronous url request
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+
+    operation.responseSerializer = [AFJSONResponseSerializer serializer];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        self.detailedGameInfo = [responseObject objectForKey:@"results"];
+        NSLog(@"Fetched detailed game info: %@",self.detailedGameInfo);
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Request Failed: %@, %@", error, error.userInfo);
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+
     }];
     
     [operation start];
@@ -106,11 +151,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-//
-//    NSDate *object = _objects[indexPath.row];
-//    cell.textLabel.text = [object description];
-//    return cell;
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     NSDictionary *tempDictionary= [self->_objects objectAtIndex:indexPath.row];
@@ -160,8 +200,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        NSDate *object = _objects[indexPath.row];
-        self.detailViewController.detailItem = object;
+        NSDictionary *object = _objects[indexPath.row];
+        NSString *gameID = [object objectForKey:@"id"];
+        [self makeDetailJSONReq:[NSString stringWithFormat:@"%@",gameID]];
+        self.detailViewController.gameInfo = self.detailedGameInfo;
     }
 }
 
@@ -169,7 +211,7 @@
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
+        NSDictionary *object = _objects[indexPath.row];
         [[segue destinationViewController] setDetailItem:object];
     }
 }

@@ -7,7 +7,6 @@
 //
 
 #import "DetailViewController.h"
-
 @interface DetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
@@ -28,7 +27,7 @@
 
     if (self.masterPopoverController != nil) {
         [self.masterPopoverController dismissPopoverAnimated:YES];
-    }        
+    }
 }
 
 - (void)configureView
@@ -38,6 +37,7 @@
     if (self.detailItem) {
         self.detailDescriptionLabel.text = [self.detailItem description];
     }
+    
 }
 
 - (void)viewDidLoad
@@ -45,6 +45,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
+    NSLog(@"%@", self.gameInfo);
 }
 
 - (void)didReceiveMemoryWarning
