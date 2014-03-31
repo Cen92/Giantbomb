@@ -203,7 +203,7 @@
         NSDictionary *object = _objects[indexPath.row];
         NSString *gameID = [object objectForKey:@"id"];
         [self makeDetailJSONReq:[NSString stringWithFormat:@"%@",gameID]];
-        self.detailViewController.gameInfo = self.detailedGameInfo;
+        [self.detailViewController setGameInfo:self.detailedGameInfo];
     }
 }
 
