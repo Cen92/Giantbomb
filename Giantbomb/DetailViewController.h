@@ -12,7 +12,9 @@
 
 @property (strong, nonatomic) id detailItem;
 @property (strong, nonatomic) NSDictionary *gameInfo;
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *aboutGame;
+@property (strong, nonatomic) IBOutlet UILabel *gameDescription;
+@property (strong, nonatomic) IBOutlet UIImage *gameImage;
+
 
 @end
