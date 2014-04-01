@@ -10,4 +10,7 @@
 
 @interface VideosTableViewController : UITableViewController
 
+@property (strong, nonatomic) NSDictionary *videoList;
+@property (strong, nonatomic) NSMutableArray *videoArray;
+
 @end

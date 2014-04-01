@@ -101,6 +101,7 @@
         self.detailedGameInfo = [responseObject objectForKey:@"results"];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
         [self.detailViewController setGameInfo:self.detailedGameInfo];
+//        [self.detailViewController setGameInfoArray:self.gameInfoArray];
 
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

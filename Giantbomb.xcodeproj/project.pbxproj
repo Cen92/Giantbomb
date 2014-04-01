@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3648EB8EC8C24F47B1A600E4 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0B29F471DE6642FE92A446B8 /* libPods.a */; };
+		B71B9D9818EB354600B2CF77 /* VideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B71B9D9718EB354600B2CF77 /* VideoPlayerViewController.m */; };
 		B73F6A5018EAEC27001F16D1 /* VideosTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B73F6A4F18EAEC27001F16D1 /* VideosTableViewController.m */; };
 		B7727C3F18E58C2D00644EC3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7727C3E18E58C2D00644EC3 /* Foundation.framework */; };
 		B7727C4118E58C2D00644EC3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B7727C4018E58C2D00644EC3 /* CoreGraphics.framework */; };
@@ -41,6 +42,8 @@
 /* Begin PBXFileReference section */
 		0B29F471DE6642FE92A446B8 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CD5FFE14A584162AF745CD3 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		B71B9D9618EB354600B2CF77 /* VideoPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayerViewController.h; sourceTree = "<group>"; };
+		B71B9D9718EB354600B2CF77 /* VideoPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerViewController.m; sourceTree = "<group>"; };
 		B73F6A4E18EAEC27001F16D1 /* VideosTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideosTableViewController.h; sourceTree = "<group>"; };
 		B73F6A4F18EAEC27001F16D1 /* VideosTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideosTableViewController.m; sourceTree = "<group>"; };
 		B7727C3B18E58C2D00644EC3 /* Giantbomb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Giantbomb.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +137,8 @@
 				B7727C5018E58C2D00644EC3 /* Main_iPhone.storyboard */,
 				B7727C5318E58C2D00644EC3 /* Main_iPad.storyboard */,
 				B73F6A4E18EAEC27001F16D1 /* VideosTableViewController.h */,
+				B71B9D9618EB354600B2CF77 /* VideoPlayerViewController.h */,
+				B71B9D9718EB354600B2CF77 /* VideoPlayerViewController.m */,
 				B73F6A4F18EAEC27001F16D1 /* VideosTableViewController.m */,
 				B7727C5618E58C2D00644EC3 /* MasterViewController.h */,
 				B7727C5718E58C2D00644EC3 /* MasterViewController.m */,
@@ -319,6 +324,7 @@
 				B7727C4F18E58C2D00644EC3 /* AppDelegate.m in Sources */,
 				B73F6A5018EAEC27001F16D1 /* VideosTableViewController.m in Sources */,
 				B7727C5818E58C2D00644EC3 /* MasterViewController.m in Sources */,
+				B71B9D9818EB354600B2CF77 /* VideoPlayerViewController.m in Sources */,
 				B7727C4B18E58C2D00644EC3 /* main.m in Sources */,
 				B7727C5B18E58C2D00644EC3 /* DetailViewController.m in Sources */,
 			);

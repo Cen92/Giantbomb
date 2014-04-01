@@ -9,6 +9,8 @@
 //http://www.giantbomb.com/api/video/8367/?api_key=db83ace1ea2b58b18cbf4ac7696df4a5508120c6&format=json
 
 #import "DetailViewController.h"
+#import "VideosTableViewController.h"
+#import "AFNetworking.h"
 @interface DetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
@@ -33,6 +35,7 @@
 }
 
 - (void)setGameInfo:(NSDictionary *)newInfo
+//-(void) setGameInfoArray:(NSMutableArray *)newInfo
 {
     if (_gameInfo != newInfo) {
         _gameInfo = newInfo;
@@ -67,7 +70,7 @@
         
         self.aboutGame.hidden = NO;
         self.gameDescription.hidden = NO;
-        
+      
         self.navigationItem.title = [self.gameInfo objectForKey:@"name"];
         self.aboutGame.text = [self.gameInfo objectForKey:@"deck"];
         self.gameDescription.text = [self stringByStrippingHTML:[self.gameInfo objectForKey:@"description"]];
@@ -77,7 +80,6 @@
         NSURL *imageURL = [NSURL URLWithString:[dict objectForKey:@"small_url"]];
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         self.gameImage.image = [UIImage imageWithData:imageData];
-        NSLog(@"%@", self.gameInfo);
     }
    else{
        self.aboutGame.hidden = YES;
@@ -130,15 +132,17 @@
 
 
 
+
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    NSLog(@"prepareForSegue: %@", segue.identifier);
+    //NSLog(@"prepareForSegue: %@", segue.identifier);
     if([segue.identifier isEqualToString:@"videoPopover"])
     {
-        NSLog(@"VideoPopover Tapped: %@", segue.identifier);
-
+//        NSDictionary *videos = [[NSDictionary alloc]init];
+//        videos = [self.gameInfo objectForKey:@"videos"];
+        VideosTableViewController *controller = (VideosTableViewController *)segue.destinationViewController;
+        [controller setVideoArray:[self.gameInfo objectForKey:@"videos"]];
     }
-    
 }
 
 @end
