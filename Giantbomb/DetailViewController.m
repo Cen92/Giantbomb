@@ -5,6 +5,8 @@
 //  Created by Cionnat Breathnach on 28/03/2014.
 //  Copyright (c) 2014 Cionnat Breathnach. All rights reserved.
 //
+//video api call for game
+//http://www.giantbomb.com/api/video/8367/?api_key=db83ace1ea2b58b18cbf4ac7696df4a5508120c6&format=json
 
 #import "DetailViewController.h"
 @interface DetailViewController ()
@@ -54,12 +56,6 @@
 }
 - (void)configureView
 {
-    // Update the user interface for the detail item.
-
-//    if (self.detailItem) {
-//        self.detailDescriptionLabel.text = [self.detailItem description];
-//    }
-
     if(self.gameInfo) {
         for (UIView *subView in self.view.subviews)
         {
@@ -81,8 +77,7 @@
         NSURL *imageURL = [NSURL URLWithString:[dict objectForKey:@"small_url"]];
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         self.gameImage.image = [UIImage imageWithData:imageData];
-        
-        
+        NSLog(@"%@", self.gameInfo);
     }
    else{
        self.aboutGame.hidden = YES;
@@ -131,6 +126,19 @@
     // Called when the view is shown again in the split view, invalidating the button and popover controller.
     [self.navigationItem setLeftBarButtonItem:nil animated:YES];
     self.masterPopoverController = nil;
+}
+
+
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    NSLog(@"prepareForSegue: %@", segue.identifier);
+    if([segue.identifier isEqualToString:@"videoPopover"])
+    {
+        NSLog(@"VideoPopover Tapped: %@", segue.identifier);
+
+    }
+    
 }
 
 @end
