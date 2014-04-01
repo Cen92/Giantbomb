@@ -8,9 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class VideoPlayerViewController;
+
+
 @interface VideosTableViewController : UITableViewController
 
-@property (strong, nonatomic) NSDictionary *videoList;
+@property (strong, nonatomic) NSMutableDictionary *videoList;
 @property (strong, nonatomic) NSMutableArray *videoArray;
+@property (strong, nonatomic) NSString *url;
+
+
+@property (strong, nonatomic) VideoPlayerViewController *videoPlayerViewController;
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import "VideosTableViewController.h"
+#import "AFNetworking.h"
+#import "VideoPlayerViewController.h"
 
 @interface VideosTableViewController ()
 
@@ -21,15 +23,6 @@
         // Custom initialization
     }
     return self;
-}
-
--(void)setVideoList:(NSDictionary *)videoInfo
-{
-    if (_videoList != videoInfo) {
-        _videoList = videoInfo;
-        // Update the view.
-        NSLog(@"%@", _videoList);
-    }
 }
 
 -(void)setVideoArray:(NSMutableArray *)videoArray{
@@ -84,8 +77,58 @@
     
 }
 
+-(void)makeVideoJSONReq:(NSString *)videoID{
+    NSMutableString *searchURL = [NSMutableString stringWithString:@"http://www.giantbomb.com/api/video/"];
+    [searchURL appendString:videoID];
+    NSString *queryItems = @"/?api_key=db83ace1ea2b58b18cbf4ac7696df4a5508120c6&format=json";
+    [searchURL appendString:queryItems];
+    
+    NSURL *url = [NSURL URLWithString:searchURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    //AFNetworking asynchronous url request
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    
+    operation.responseSerializer = [AFJSONResponseSerializer serializer];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        self.videoList = [responseObject objectForKey:@"results"];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        _url = [self.videoList objectForKey:@"high_url"];
+        [self performSegueWithIdentifier:@"PlayVideo" sender:self];
+
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Request Failed: %@, %@", error, error.userInfo);
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        
+    }];
+    
+    [operation start];
+
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"Row clicked");
+    
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        NSDictionary *object = _videoArray[indexPath.row];
+        NSString *videoID = [object objectForKey:@"id"];
+        [self makeVideoJSONReq:[NSString stringWithFormat:@"%@",videoID]];
+        
+    }
+   // return indexPath;
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    NSLog(@"prepareForSegue: %@", segue.identifier);
+    if([segue.identifier isEqualToString:@"PlayVideo"])
+    {   VideoPlayerViewController *controller = (VideoPlayerViewController *)segue.destinationViewController;
+        NSLog(@"%@", self.url);
+        [controller setVideoURL:self.url];
+        
+    }
 }
 
 

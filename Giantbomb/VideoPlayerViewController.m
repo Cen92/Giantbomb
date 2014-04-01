@@ -26,7 +26,20 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    NSURL *stringURL = [[NSURL alloc]initWithString:self.videoURL];
+    _moviePlayer = [[MPMoviePlayerController alloc]initWithContentURL:stringURL];
+    _moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+    _moviePlayer.view.transform = CGAffineTransformConcat(_moviePlayer.view.transform, CGAffineTransformMakeRotation(M_PI_2));
+    [_moviePlayer.view setFrame: self.view.bounds];
+    [self.view addSubview: _moviePlayer.view];
+    [_moviePlayer play];
+}
+
+-(void) setVideoURL:(NSString *)videoURL{
+    if(_videoURL != videoURL){
+        _videoURL = videoURL;
+    }
 }
 
 - (void)didReceiveMemoryWarning

@@ -72,6 +72,8 @@
         self.gameDescription.hidden = NO;
       
         self.navigationItem.title = [self.gameInfo objectForKey:@"name"];
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+
         self.aboutGame.text = [self.gameInfo objectForKey:@"deck"];
         self.gameDescription.text = [self stringByStrippingHTML:[self.gameInfo objectForKey:@"description"]];
         NSDictionary *dict = [[NSDictionary alloc] init];
@@ -80,10 +82,18 @@
         NSURL *imageURL = [NSURL URLWithString:[dict objectForKey:@"small_url"]];
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         self.gameImage.image = [UIImage imageWithData:imageData];
+        
+        NSDictionary *videos = [[NSDictionary alloc]init];
+        videos = [self.gameInfo objectForKey:@"videos"];
+        if(!videos){
+            self.navigationItem.rightBarButtonItem.title = @"";
+        }
     }
    else{
        self.aboutGame.hidden = YES;
        self.gameDescription.hidden = YES;
+       self.navigationItem.rightBarButtonItem.enabled = NO;
+
        [self setBackgroundImage:@"background.png"];
    }
     
@@ -138,8 +148,6 @@
     //NSLog(@"prepareForSegue: %@", segue.identifier);
     if([segue.identifier isEqualToString:@"videoPopover"])
     {
-//        NSDictionary *videos = [[NSDictionary alloc]init];
-//        videos = [self.gameInfo objectForKey:@"videos"];
         VideosTableViewController *controller = (VideosTableViewController *)segue.destinationViewController;
         [controller setVideoArray:[self.gameInfo objectForKey:@"videos"]];
     }
