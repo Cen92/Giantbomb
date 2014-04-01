@@ -65,16 +65,28 @@
         {
             if (subView.tag == 99)
             {
-                [subView removeFromSuperview];
+                [subView removeFromSuperview]; //remove background image
             }
         }
+        
+        self.aboutGame.hidden = NO;
+        self.gameDescription.hidden = NO;
         
         self.navigationItem.title = [self.gameInfo objectForKey:@"name"];
         self.aboutGame.text = [self.gameInfo objectForKey:@"deck"];
         self.gameDescription.text = [self stringByStrippingHTML:[self.gameInfo objectForKey:@"description"]];
-        //NSLog(@"%@", self.gameDescription.text);
+        NSDictionary *dict = [[NSDictionary alloc] init];
+        dict = [self.gameInfo objectForKey:@"image"];
+        
+        NSURL *imageURL = [NSURL URLWithString:[dict objectForKey:@"small_url"]];
+        NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+        self.gameImage.image = [UIImage imageWithData:imageData];
+        
+        
     }
    else{
+       self.aboutGame.hidden = YES;
+       self.gameDescription.hidden = YES;
        [self setBackgroundImage:@"background.png"];
    }
     
@@ -91,6 +103,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [_scroller setScrollEnabled:YES];
+    [_scroller setContentSize:CGSizeMake(703, 1200)];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
@@ -105,9 +119,10 @@
 
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
 {
-    barButtonItem.title = NSLocalizedString(@"Master", @"Master");
-    [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
-    self.masterPopoverController = popoverController;
+    
+    barButtonItem.title = NSLocalizedString(@"Search", @"Search");
+   [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
+     self.masterPopoverController = popoverController;
     [self configureView];
 }
 
