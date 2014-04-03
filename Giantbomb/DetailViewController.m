@@ -76,15 +76,13 @@
 
         self.aboutGame.text = [self.gameInfo objectForKey:@"deck"];
         self.gameDescription.text = [self stringByStrippingHTML:[self.gameInfo objectForKey:@"description"]];
-        NSDictionary *dict = [[NSDictionary alloc] init];
-        dict = [self.gameInfo objectForKey:@"image"];
+        NSDictionary *dict = [self.gameInfo objectForKey:@"image"];
         
         NSURL *imageURL = [NSURL URLWithString:[dict objectForKey:@"small_url"]];
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
         self.gameImage.image = [UIImage imageWithData:imageData];
         
-        NSDictionary *videos = [[NSDictionary alloc]init];
-        videos = [self.gameInfo objectForKey:@"videos"];
+        NSDictionary *videos = [self.gameInfo objectForKey:@"videos"];
         if(!videos){
             self.navigationItem.rightBarButtonItem.title = @"";
         }
@@ -144,7 +142,7 @@
 
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
+  
     //NSLog(@"prepareForSegue: %@", segue.identifier);
     if([segue.identifier isEqualToString:@"videoPopover"])
     {

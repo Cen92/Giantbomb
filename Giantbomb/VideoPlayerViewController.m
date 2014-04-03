@@ -27,6 +27,9 @@
 {
     [super viewDidLoad];
     
+    [self prefersStatusBarHidden];
+    [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    
     NSURL *stringURL = [[NSURL alloc]initWithString:self.videoURL];
     _moviePlayer = [[MPMoviePlayerController alloc]initWithContentURL:stringURL];
     _moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
@@ -34,12 +37,17 @@
     [_moviePlayer.view setFrame: self.view.bounds];
     [self.view addSubview: _moviePlayer.view];
     [_moviePlayer play];
-}
+   }
 
 -(void) setVideoURL:(NSString *)videoURL{
     if(_videoURL != videoURL){
         _videoURL = videoURL;
     }
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning

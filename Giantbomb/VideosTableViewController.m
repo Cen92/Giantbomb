@@ -28,8 +28,7 @@
 -(void)setVideoArray:(NSMutableArray *)videoArray{
     if (_videoArray != videoArray) {
         _videoArray = videoArray;
-        // Update the view.
-        //NSLog(@"%@", _videoArray);
+        NSLog(@"%@", _videoArray);
     }
 }
 
