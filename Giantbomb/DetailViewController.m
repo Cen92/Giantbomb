@@ -75,7 +75,20 @@
         self.navigationItem.rightBarButtonItem.enabled = YES;
 
         self.aboutGame.text = [self.gameInfo objectForKey:@"deck"];
-        self.gameDescription.text = [self stringByStrippingHTML:[self.gameInfo objectForKey:@"description"]];
+        //self.gameDescription.text = [self stringByStrippingHTML:[self.gameInfo objectForKey:@"description"]];
+       // self.gameDescription.
+        
+        UILabel *testLabel =[[UILabel alloc] initWithFrame:CGRectMake(20,515, 663, 663)]; // RectMake(xPos,yPos,Max Width I want, is just a container value);
+        
+        NSString * test=[self stringByStrippingHTML:[self.gameInfo objectForKey:@"description"]];;
+        
+        testLabel.text = test;
+        testLabel.numberOfLines = 0; //will wrap text in new line
+        [testLabel sizeToFit];
+        
+        [self.scroller addSubview:testLabel];
+        
+        
         NSDictionary *dict = [self.gameInfo objectForKey:@"image"];
         
         NSURL *imageURL = [NSURL URLWithString:[dict objectForKey:@"small_url"]];
