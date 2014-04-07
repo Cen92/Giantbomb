@@ -11,6 +11,7 @@
 #import "DetailViewController.h"
 #import "VideosTableViewController.h"
 #import "AFNetworking.h"
+
 @interface DetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
@@ -24,7 +25,6 @@
 {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-        
         // Update the view.
         [self configureView];
     }
@@ -34,13 +34,17 @@
     }
 }
 
+
+
 - (void)setGameInfo:(NSDictionary *)newInfo
 //-(void) setGameInfoArray:(NSMutableArray *)newInfo
 {
     if (_gameInfo != newInfo) {
         _gameInfo = newInfo;
         // Update the view.
+            [self.scroller.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     }
+    
     
     if (self.masterPopoverController != nil) {
         [self.masterPopoverController dismissPopoverAnimated:YES];
@@ -57,6 +61,8 @@
     //NSLog(@"%@", s);
     return s;
 }
+
+
 - (void)configureView
 {
     if(self.gameInfo) {
@@ -67,42 +73,87 @@
                 [subView removeFromSuperview]; //remove background image
             }
         }
-        
-        self.aboutGame.hidden = NO;
-        self.gameDescription.hidden = NO;
       
         self.navigationItem.title = [self.gameInfo objectForKey:@"name"];
-        self.navigationItem.rightBarButtonItem.enabled = YES;
+        [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor redColor]}];
+        [self.navigationController.navigationBar setTintColor:[UIColor colorWithRed:(51/255.0) green:(51/255.0) blue:(51/255.0) alpha:.5]];
 
-        self.aboutGame.text = [self.gameInfo objectForKey:@"deck"];
-        //self.gameDescription.text = [self stringByStrippingHTML:[self.gameInfo objectForKey:@"description"]];
-       // self.gameDescription.
-        
-        UILabel *testLabel =[[UILabel alloc] initWithFrame:CGRectMake(20,515, 663, 663)]; // RectMake(xPos,yPos,Max Width I want, is just a container value);
-        
-        NSString * test=[self stringByStrippingHTML:[self.gameInfo objectForKey:@"description"]];;
-        
-        testLabel.text = test;
-        testLabel.numberOfLines = 0; //will wrap text in new line
-        [testLabel sizeToFit];
-        
-        [self.scroller addSubview:testLabel];
-        
+        [self.navigationItem.leftBarButtonItem setTintColor:[UIColor redColor]];
+
+        CGRect screenRect = [[UIScreen mainScreen] bounds];
+        CGFloat screenWidth = screenRect.size.width;
         
         NSDictionary *dict = [self.gameInfo objectForKey:@"image"];
-        
         NSURL *imageURL = [NSURL URLWithString:[dict objectForKey:@"small_url"]];
         NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-        self.gameImage.image = [UIImage imageWithData:imageData];
+        UIImage *image = [UIImage imageWithData:imageData];
+        UIImageView *imageView =[[UIImageView alloc]initWithFrame:CGRectMake((screenWidth/2)-(image.size.width/2), 20, image.size.width, image.size.height)];
+        imageView.image = image;
+        [self.scroller addSubview:imageView];
+        
+        //about game
+        NSString *aboutGame=[self stringByStrippingHTML:[self.gameInfo objectForKey:@"deck"]];
+        UILabel *aboutGameLabel =[[UILabel alloc] initWithFrame:CGRectMake(20,(image.size.height+40), 663, 663)];
+        
+        
+        CGSize maximumAboutGameLabelSize = CGSizeMake(663, 9999);
+        CGSize expectedAboutGameLabelSize = [aboutGame sizeWithFont:aboutGameLabel.font
+                                               constrainedToSize:maximumAboutGameLabelSize
+                                                   lineBreakMode:aboutGameLabel.lineBreakMode];
+        CGRect newAboutGameFrame = aboutGameLabel.frame;
+        newAboutGameFrame.size.height = expectedAboutGameLabelSize.height;
+        aboutGameLabel.frame = newAboutGameFrame;
+
+        aboutGameLabel.text = aboutGame;
+        aboutGameLabel.textColor = [UIColor whiteColor];
+        aboutGameLabel.numberOfLines = 0; //will wrap text in new line
+        [aboutGameLabel sizeToFit];
+        
+        [self.scroller addSubview:aboutGameLabel];
+        //end about game
+        //gamedescription
+        NSString *gameDescription=[self stringByStrippingHTML:[self.gameInfo objectForKey:@"description"]];
+        UILabel *gameDescriptionLabel =[[UILabel alloc] initWithFrame:CGRectMake(20,(image.size.height+40 +aboutGameLabel.frame.size.height +40), 663, 663)];
+        
+        CGSize maximumLabelSize = CGSizeMake(663, 9999);
+        CGSize expectedLabelSize = [gameDescription sizeWithFont:gameDescriptionLabel.font
+                                          constrainedToSize:maximumLabelSize
+                                              lineBreakMode:gameDescriptionLabel.lineBreakMode];
+        CGRect newFrame = gameDescriptionLabel.frame;
+        newFrame.size.height = expectedLabelSize.height;
+        gameDescriptionLabel.frame = newFrame;
+        
+        
+        
+        gameDescriptionLabel.text = gameDescription;
+        gameDescriptionLabel.textColor = [UIColor whiteColor];
+        [gameDescriptionLabel setTextAlignment:NSTextAlignmentLeft];
+        gameDescriptionLabel.numberOfLines = 0; //will wrap text in new line
+        [gameDescriptionLabel sizeToFit];
+        
+        [self.scroller addSubview:gameDescriptionLabel];
+        
         
         NSDictionary *videos = [self.gameInfo objectForKey:@"videos"];
-        if(!videos){
-            self.navigationItem.rightBarButtonItem.title = @"";
+       // NSLog(@"%@", videos);
+        if([videos count]){
+            NSLog(@"%@", videos);
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+            [self.navigationItem.rightBarButtonItem setTintColor:[UIColor redColor]];
         }
+        else {
+            self.navigationItem.rightBarButtonItem.enabled = NO;
+
+        }
+        
+        CGRect contentRect = CGRectZero;
+        for (UIView *view in self.scroller.subviews) {
+            contentRect = CGRectUnion(contentRect, view.frame);
+        }
+        self.scroller.contentSize = contentRect.size;
     }
    else{
-       self.aboutGame.hidden = YES;
-       self.gameDescription.hidden = YES;
+       
        self.navigationItem.rightBarButtonItem.enabled = NO;
 
        [self setBackgroundImage:@"background.png"];
@@ -121,6 +172,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.navigationItem.title = @"";
+    self.navigationItem.title = [self.gameInfo objectForKey:@"name"];
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor redColor]];
+
+    [self.view setBackgroundColor:[UIColor colorWithRed:(51/255.0) green:(51/255.0) blue:(51/255.0) alpha:1]];
     [_scroller setScrollEnabled:YES];
     [_scroller setContentSize:CGSizeMake(703, 1200)];
 	// Do any additional setup after loading the view, typically from a nib.
@@ -136,8 +192,7 @@
 #pragma mark - Split view
 
 - (void)splitViewController:(UISplitViewController *)splitController willHideViewController:(UIViewController *)viewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)popoverController
-{
-    
+{    
     barButtonItem.title = NSLocalizedString(@"Search", @"Search");
    [self.navigationItem setLeftBarButtonItem:barButtonItem animated:YES];
      self.masterPopoverController = popoverController;

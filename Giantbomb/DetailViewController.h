@@ -16,9 +16,9 @@
 @property (strong, nonatomic) NSDictionary *gameInfo;
 //@property (strong, nonatomic) NSMutableArray *gameInfoArray;
 
-@property (weak, nonatomic) IBOutlet UILabel *aboutGame;
-@property (strong, nonatomic) IBOutlet UILabel *gameDescription;
-@property (strong, nonatomic) IBOutlet UIImageView *gameImage;
+//@property (weak, nonatomic) IBOutlet UILabel *aboutGame;
+//@property (strong, nonatomic) IBOutlet UILabel *gameDescription;
+//@property (strong, nonatomic) IBOutlet UIImageView *gameImage;
 @property (strong, nonatomic) IBOutlet UIScrollView *scroller;
 @property (strong, nonatomic) NSDictionary *videoDictionary;
 

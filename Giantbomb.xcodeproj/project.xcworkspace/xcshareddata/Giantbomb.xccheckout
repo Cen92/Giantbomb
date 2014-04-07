@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>55E551D5-1289-484D-AB07-74C4A52AC6D6</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Giantbomb</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>9A773B52-D8DE-4DDA-9749-2F84BF42289A</key>
+		<string>https://github.com/Cen92/Giantbomb.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Giantbomb.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>9A773B52-D8DE-4DDA-9749-2F84BF42289A</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Cen92/Giantbomb.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>9A773B52-D8DE-4DDA-9749-2F84BF42289A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9A773B52-D8DE-4DDA-9749-2F84BF42289A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Giantbomb</string>
+		</dict>
+	</array>
+</dict>
+</plist>
