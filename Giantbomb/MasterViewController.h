@@ -10,7 +10,7 @@
 
 @class DetailViewController;
 
-@interface MasterViewController : UITableViewController <UISearchBarDelegate>
+@interface MasterViewController : UITableViewController <UISearchBarDelegate, UITableViewDelegate>
 
 @property IBOutlet UISearchBar *mySearchBar;
 @property NSMutableDictionary *detailedGameInfo;

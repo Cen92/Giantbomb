@@ -129,12 +129,19 @@
     return _objects.count;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    [cell setBackgroundColor:[UIColor colorWithRed:(51/255.0) green:(51/255.0) blue:(51/255.0) alpha:1]];
+
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     NSDictionary *tempDictionary= [self->_objects objectAtIndex:indexPath.row];
     cell.textLabel.text = [tempDictionary objectForKey:@"name"];
+    [cell setBackgroundColor:[UIColor colorWithRed:(51/255.0) green:(51/255.0) blue:(51/255.0) alpha:1]];
+    cell.textLabel.textColor = [UIColor whiteColor];
     cell.textLabel.adjustsFontSizeToFitWidth = YES;
     return cell;
 }

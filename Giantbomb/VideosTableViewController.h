@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
 
-@class VideoPlayerViewController;
+
+//@class VideoPlayerViewController;
 
 
 @interface VideosTableViewController : UITableViewController
@@ -16,8 +18,9 @@
 @property (strong, nonatomic) NSMutableDictionary *videoList;
 @property (strong, nonatomic) NSMutableArray *videoArray;
 @property (strong, nonatomic) NSString *url;
+@property (nonatomic, strong) MPMoviePlayerController *moviePlayer;
+@property (nonatomic, strong) NSString *videoURL;
 
-
-@property (strong, nonatomic) VideoPlayerViewController *videoPlayerViewController;
+//@property (strong, nonatomic) VideoPlayerViewController *videoPlayerViewController;
 
 @end

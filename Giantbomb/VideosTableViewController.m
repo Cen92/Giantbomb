@@ -42,7 +42,21 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
+        // iOS 7
+        [self prefersStatusBarHidden];
+        [self performSelector:@selector(setNeedsStatusBarAppearanceUpdate)];
+    } else {
+        // iOS 6
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    }
+    
 }
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -70,7 +84,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"videoCell" forIndexPath:indexPath];
     
     NSDictionary *tempDictionary= [self.videoArray objectAtIndex:indexPath.row];
-    NSLog(@"%@", tempDictionary);
     cell.textLabel.text = [tempDictionary objectForKey:@"name"];
     return cell;
     
@@ -93,8 +106,10 @@
         
         self.videoList = [responseObject objectForKey:@"results"];
         [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        _url = [self.videoList objectForKey:@"high_url"];
-        [self performSegueWithIdentifier:@"PlayVideo" sender:self];
+//        _url = [self.videoList objectForKey:@"high_url"];
+        self.videoURL = [self.videoList objectForKey:@"high_url"];
+        [self playMovie];
+       // [self performSegueWithIdentifier:@"PlayVideo" sender:self];
 
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -119,65 +134,48 @@
    // return indexPath;
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+-(void)playMovie{
     
-    NSLog(@"prepareForSegue: %@", segue.identifier);
-    if([segue.identifier isEqualToString:@"PlayVideo"])
-    {   VideoPlayerViewController *controller = (VideoPlayerViewController *)segue.destinationViewController;
-        NSLog(@"%@", self.url);
-        [controller setVideoURL:self.url];
-        
+    NSURL *stringURL = [[NSURL alloc]initWithString:self.videoURL];
+    _moviePlayer =  [[MPMoviePlayerController alloc]
+                     initWithContentURL:stringURL];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(moviePlayBackDidFinish:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:_moviePlayer];
+    
+    _moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+    _moviePlayer.shouldAutoplay = YES;
+    _moviePlayer.view.transform = CGAffineTransformConcat(_moviePlayer.view.transform, CGAffineTransformMakeRotation(M_PI_2));
+
+    [self.view addSubview:_moviePlayer.view];
+    [_moviePlayer setFullscreen:YES animated:YES];
+//    _moviePlayer = [[MPMoviePlayerController alloc]initWithContentURL:stringURL];
+//    _moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+//    _moviePlayer.view.transform = CGAffineTransformConcat(_moviePlayer.view.transform, CGAffineTransformMakeRotation(M_PI_2));
+//    [_moviePlayer.view setFrame: self.view.bounds];
+//    //[self.view addSubview: _moviePlayer.view];
+//    [_moviePlayer play];
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self.view.subviews
+//                                             selector:@selector(doneButtonClick:)
+//                                                 name:MPMoviePlayerWillExitFullscreenNotification
+//                                               object:nil];
+
+}
+- (void) moviePlayBackDidFinish:(NSNotification*)notification {
+    MPMoviePlayerController *player = [notification object];
+    [[NSNotificationCenter defaultCenter]
+     removeObserver:self
+     name:MPMoviePlayerPlaybackDidFinishNotification
+     object:player];
+    
+    if ([player
+         respondsToSelector:@selector(setFullscreen:animated:)])
+    {
+        [player.view removeFromSuperview];
     }
 }
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

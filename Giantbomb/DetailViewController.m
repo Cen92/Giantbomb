@@ -34,7 +34,9 @@
     }
 }
 
-
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
 
 - (void)setGameInfo:(NSDictionary *)newInfo
 //-(void) setGameInfoArray:(NSMutableArray *)newInfo
@@ -137,7 +139,6 @@
         NSDictionary *videos = [self.gameInfo objectForKey:@"videos"];
        // NSLog(@"%@", videos);
         if([videos count]){
-            NSLog(@"%@", videos);
             self.navigationItem.rightBarButtonItem.enabled = YES;
             [self.navigationItem.rightBarButtonItem setTintColor:[UIColor redColor]];
         }
