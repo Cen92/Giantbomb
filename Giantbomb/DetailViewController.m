@@ -176,6 +176,7 @@
     self.navigationItem.title = @"";
     self.navigationItem.title = [self.gameInfo objectForKey:@"name"];
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor redColor]];
+    [self.navigationController prefersStatusBarHidden];
 
     [self.view setBackgroundColor:[UIColor colorWithRed:(51/255.0) green:(51/255.0) blue:(51/255.0) alpha:1]];
     [_scroller setScrollEnabled:YES];

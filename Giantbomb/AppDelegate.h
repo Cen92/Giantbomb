@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AFNetworkActivityIndicatorManager.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
