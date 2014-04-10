@@ -14,7 +14,6 @@
 
 @property IBOutlet UISearchBar *mySearchBar;
 @property NSMutableDictionary *detailedGameInfo;
-
 @property (strong, nonatomic) DetailViewController *detailViewController;
 
 @end

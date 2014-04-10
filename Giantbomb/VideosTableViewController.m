@@ -28,7 +28,6 @@
 -(void)setVideoArray:(NSMutableArray *)videoArray{
     if (_videoArray != videoArray) {
         _videoArray = videoArray;
-        NSLog(@"%@", _videoArray);
     }
 }
 
@@ -36,11 +35,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     if ([self respondsToSelector:@selector(setNeedsStatusBarAppearanceUpdate)]) {
         // iOS 7
@@ -94,33 +88,31 @@
     [searchURL appendString:videoID];
     NSString *queryItems = @"/?api_key=db83ace1ea2b58b18cbf4ac7696df4a5508120c6&format=json";
     [searchURL appendString:queryItems];
-    
     NSURL *url = [NSURL URLWithString:searchURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     //AFNetworking asynchronous url request
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
     
     operation.responseSerializer = [AFJSONResponseSerializer serializer];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         self.videoList = [responseObject objectForKey:@"results"];
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//        _url = [self.videoList objectForKey:@"high_url"];
-        self.videoURL = [self.videoList objectForKey:@"high_url"];
+        self.videoURL = [self.videoList objectForKey:@"high_url"]; //get high-def video url
         [self playMovie];
-       // [self performSegueWithIdentifier:@"PlayVideo" sender:self];
-
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
-        NSLog(@"Request Failed: %@, %@", error, error.userInfo);
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error Retrieving Video"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+        [alertView show]; //display an alert for an error in human readable format (No internet connection)
         
     }];
     
     [operation start];
-
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -131,7 +123,6 @@
         [self makeVideoJSONReq:[NSString stringWithFormat:@"%@",videoID]];
         
     }
-   // return indexPath;
 }
 
 -(void)playMovie{
@@ -142,26 +133,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(moviePlayBackDidFinish:)
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
-                                               object:_moviePlayer];
-    
+                                               object:_moviePlayer]; //register for done button notifications
     _moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
     _moviePlayer.shouldAutoplay = YES;
-    _moviePlayer.view.transform = CGAffineTransformConcat(_moviePlayer.view.transform, CGAffineTransformMakeRotation(M_PI_2));
-
-    [self.view addSubview:_moviePlayer.view];
+    [self.view addSubview:_moviePlayer.view]; //add movie player as subview of current view
     [_moviePlayer setFullscreen:YES animated:YES];
-//    _moviePlayer = [[MPMoviePlayerController alloc]initWithContentURL:stringURL];
-//    _moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
-//    _moviePlayer.view.transform = CGAffineTransformConcat(_moviePlayer.view.transform, CGAffineTransformMakeRotation(M_PI_2));
-//    [_moviePlayer.view setFrame: self.view.bounds];
-//    //[self.view addSubview: _moviePlayer.view];
-//    [_moviePlayer play];
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self.view.subviews
-//                                             selector:@selector(doneButtonClick:)
-//                                                 name:MPMoviePlayerWillExitFullscreenNotification
-//                                               object:nil];
-
 }
 - (void) moviePlayBackDidFinish:(NSNotification*)notification {
     MPMoviePlayerController *player = [notification object];
@@ -173,7 +149,8 @@
     if ([player
          respondsToSelector:@selector(setFullscreen:animated:)])
     {
-        [player.view removeFromSuperview];
+        player.fullscreen = NO; //fix for movie ending and not closing
+        [player.view removeFromSuperview]; //remove from parent view
     }
 }
 

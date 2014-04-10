@@ -18,7 +18,7 @@
         UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
         splitViewController.delegate = (id)navigationController.topViewController;
     }
-    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES; //managing network spinners
     return YES;
 }
 							

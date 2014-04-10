@@ -21,6 +21,4 @@
 @property (nonatomic, strong) MPMoviePlayerController *moviePlayer;
 @property (nonatomic, strong) NSString *videoURL;
 
-//@property (strong, nonatomic) VideoPlayerViewController *videoPlayerViewController;
-
 @end

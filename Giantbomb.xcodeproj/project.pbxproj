@@ -16,7 +16,6 @@
 		B7727C4918E58C2D00644EC3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B7727C4718E58C2D00644EC3 /* InfoPlist.strings */; };
 		B7727C4B18E58C2D00644EC3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B7727C4A18E58C2D00644EC3 /* main.m */; };
 		B7727C4F18E58C2D00644EC3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B7727C4E18E58C2D00644EC3 /* AppDelegate.m */; };
-		B7727C5218E58C2D00644EC3 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7727C5018E58C2D00644EC3 /* Main_iPhone.storyboard */; };
 		B7727C5518E58C2D00644EC3 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7727C5318E58C2D00644EC3 /* Main_iPad.storyboard */; };
 		B7727C5818E58C2D00644EC3 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7727C5718E58C2D00644EC3 /* MasterViewController.m */; };
 		B7727C5B18E58C2D00644EC3 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B7727C5A18E58C2D00644EC3 /* DetailViewController.m */; };
@@ -55,7 +54,6 @@
 		B7727C4C18E58C2D00644EC3 /* Giantbomb-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Giantbomb-Prefix.pch"; sourceTree = "<group>"; };
 		B7727C4D18E58C2D00644EC3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B7727C4E18E58C2D00644EC3 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		B7727C5118E58C2D00644EC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
 		B7727C5418E58C2D00644EC3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		B7727C5618E58C2D00644EC3 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		B7727C5718E58C2D00644EC3 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
@@ -135,7 +133,6 @@
 				B7BE16A918E9BE7F00786233 /* Images */,
 				B7727C4D18E58C2D00644EC3 /* AppDelegate.h */,
 				B7727C4E18E58C2D00644EC3 /* AppDelegate.m */,
-				B7727C5018E58C2D00644EC3 /* Main_iPhone.storyboard */,
 				B7727C5318E58C2D00644EC3 /* Main_iPad.storyboard */,
 				B73F6A4E18EAEC27001F16D1 /* VideosTableViewController.h */,
 				B73F6A4F18EAEC27001F16D1 /* VideosTableViewController.m */,
@@ -267,7 +264,6 @@
 				B7727C5518E58C2D00644EC3 /* Main_iPad.storyboard in Resources */,
 				B7BE16AD18E9C08E00786233 /* background.png in Resources */,
 				B7727C5D18E58C2D00644EC3 /* Images.xcassets in Resources */,
-				B7727C5218E58C2D00644EC3 /* Main_iPhone.storyboard in Resources */,
 				B7727C4918E58C2D00644EC3 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,14 +349,6 @@
 				B7727C4818E58C2D00644EC3 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		B7727C5018E58C2D00644EC3 /* Main_iPhone.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				B7727C5118E58C2D00644EC3 /* Base */,
-			);
-			name = Main_iPhone.storyboard;
 			sourceTree = "<group>";
 		};
 		B7727C5318E58C2D00644EC3 /* Main_iPad.storyboard */ = {
@@ -462,8 +450,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Giantbomb/Giantbomb-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INFOPLIST_FILE = "Giantbomb/Giantbomb-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -476,8 +466,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Giantbomb/Giantbomb-Prefix.pch";
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				INFOPLIST_FILE = "Giantbomb/Giantbomb-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

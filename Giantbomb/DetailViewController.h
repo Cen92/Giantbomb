@@ -16,7 +16,6 @@
 @property (strong, nonatomic) NSDictionary *gameInfo;
 @property (strong, nonatomic) IBOutlet UIScrollView *scroller;
 @property (strong, nonatomic) NSDictionary *videoDictionary;
-
 @property (strong, nonatomic) VideosTableViewController *videoTableViewController;
 
 @end
